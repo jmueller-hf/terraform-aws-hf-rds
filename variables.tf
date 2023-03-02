@@ -1,6 +1,10 @@
 variable "cluster_name" {
   type        = string
   description = " Cluster Identifier"
+  validation {
+    condition = can(regex("^[a-zA-Z]+$", var.cluster_name)) && length(var.cluster_name) == 4
+    error_message = "Cluster name must be 4 characters in length containing only [a-zA-Z]"
+  }
 }
 
 variable "database_name" {
