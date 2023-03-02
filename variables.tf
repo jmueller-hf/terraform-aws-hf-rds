@@ -62,8 +62,17 @@ variable "subnet_type" {
   type        = string
 }
 
+variable "cost_center" {
+  type        = string
+}
+
 variable "account_vars" {
   type        = map
   description = "Global account variables"
+}
+
+variable "cost_centers" {
+  type        = map
+  description = "Global cost centers"
 }
 
