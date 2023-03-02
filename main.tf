@@ -2,6 +2,7 @@ locals {
   availability_zones = lookup(lookup(var.account_vars, var.environment),var.subnet_type).availability_zones
   security_groups = lookup(lookup(lookup(var.account_vars, var.environment),var.subnet_type).security_groups, var.engine == "aurora-mysql" ? "mysql" : "postgresql")
   instance_class = lookup(lookup(var.account_vars, var.environment).db_instance_sizes, lower(var.instance_size))
+  cost_center = lookup(var.cost_centers, var.cost_center)
   cluster_fmt = lower(format("%s%s%s-%s%s",lower(substr(var.environment, 0, 1)),var.subnet_type == "DMZ" ? "e": "i","ae1", lower(local.cost_center.OU), var.cluster_name))
   cluster_id = max(concat([0],[for i in data.aws_rds_clusters.clusters.cluster_identifiers: try(tonumber(element(regex("^${local.cluster_fmt}-(\\d*)-cluster$",i),1)),0)])...) + 1
   cluster_name = format("%s-%02s-cluster", local.cluster_fmt, random_integer.cluster_id.result)
